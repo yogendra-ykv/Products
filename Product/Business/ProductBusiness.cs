@@ -23,7 +23,7 @@ namespace Business
 
         public void AddProduct(ProductModel product)
         {
-            _productRepository.AddProduct(_mapper.Map<DataAccess.Model.Product>(product));
+            _productRepository.AddProduct(MapDbProductModel(product));
         }
 
         public IEnumerable<ProductModel> GetAllProducts()
@@ -75,6 +75,16 @@ namespace Business
         private ProductModel MapProductModel(DataAccess.Model.Product product)
         {
             return new ProductModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Quantity = product.Quantity
+            };
+        }
+
+        private DataAccess.Model.Product MapDbProductModel(ProductModel product)
+        {
+            return new DataAccess.Model.Product
             {
                 Id = product.Id,
                 Name = product.Name,

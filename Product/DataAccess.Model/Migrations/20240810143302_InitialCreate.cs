@@ -13,7 +13,7 @@ namespace DataAccess.Model.Migrations
             migrationBuilder.CreateSequence<int>(
                 name: "ProductSequence",
                 schema: "dbo",
-                startValue: 1L,
+                startValue: 100000L,
                 incrementBy: 1);
 
             migrationBuilder.CreateTable(

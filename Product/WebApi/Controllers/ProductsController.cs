@@ -16,45 +16,109 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("addproduct")]
-        public void AddProduct([FromBody] ProductModel product)
+        public IActionResult AddProduct([FromBody] ProductModel product)
         {
-            _productService.AddProduct(product);
+            try
+            {
+                _productService.AddProduct(product);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpGet("getallproducts")]
-        public IEnumerable<ProductModel> GetAllProducts()
+        public IActionResult GetAllProducts()
         {
-            return _productService.GetAllProducts();
+            try
+            {
+                var products = _productService.GetAllProducts();
+                return Ok(products);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpGet("getproductbyid/{productId:int}")]
-        public ProductModel GetProductById(int productId)
+        public IActionResult GetProductById(int productId)
         {
-            return _productService.GetProductById(productId);
+            try
+            {
+                var product = _productService.GetProductById(productId);
+                return Ok(product);
+            }
+            catch (KeyNotFoundException keyEx)
+            {
+                return StatusCode(200, keyEx.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpDelete("deleteproductbyid/{productId:int}")]
-        public void DeleteProductById(int productId)
+        public IActionResult DeleteProductById(int productId)
         {
-            _productService.DeleteProductById(productId);
+            try
+            {
+                _productService.DeleteProductById(productId);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound($"Product with ID {productId} not found.");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpPut("updateproduct")]
-        public void UpdateProduct([FromBody] ProductModel product)
+        public IActionResult UpdateProduct([FromBody] ProductModel product)
         {
-            _productService.UpdateProduct(product);
+            try
+            {
+                _productService.UpdateProduct(product);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
-        [HttpPut("decrement-stock/{id}/{quantity} ")]
-        public void DecrementStock(int id, int quantity)
+        [HttpPut("decrement-stock/{id}/{quantity}")]
+        public IActionResult DecrementStock(int id, int quantity)
         {
-            _productService.DecrementStock(id, quantity);
+            try
+            {
+                _productService.DecrementStock(id, quantity);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
-        [HttpPut("add-to-stock/{id}/{quantity} ")]
-        public void AddToStock(int id, int quantity)
+        [HttpPut("add-to-stock/{id}/{quantity}")]
+        public IActionResult AddToStock(int id, int quantity)
         {
-            _productService.AddToStock(id, quantity);
+            try
+            {
+                _productService.AddToStock(id, quantity);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

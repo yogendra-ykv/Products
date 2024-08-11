@@ -1,5 +1,6 @@
 ﻿using Repository.Interfaces;
 using DataAccess.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -24,13 +25,7 @@ namespace Repository
 
         public Product GetProductById(int productId)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
-            if (product == null)
-            {
-                throw new InvalidOperationException($"Product with ID {productId} not found.");
-            }
-
-            return product;
+            return FindProductById(productId);
         }
 
         public void DeleteProductById(Product product)
@@ -45,12 +40,7 @@ namespace Repository
 
         public void DecrementStock(int id, int quantity)
         {
-            var product = _context.Products.Find(id);
-
-            if (product == null)
-            {
-                throw new InvalidOperationException($"Product with ID {id} not found.");
-            }
+            var product = FindProductById(id);
 
             if (quantity < 0)
             {
@@ -68,12 +58,7 @@ namespace Repository
 
         public void AddToStock(int id, int quantity)
         {
-            var product = _context.Products.Find(id);
-
-            if (product == null)
-            {
-                throw new InvalidOperationException($"Product with ID {id} not found.");
-            }
+            var product = FindProductById(id);
 
             if (quantity <= 0)
             {
@@ -81,6 +66,17 @@ namespace Repository
             }
 
             product.Quantity += quantity;
+        }
+
+        private Product? FindProductById(int productId)
+        {
+            var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.Id == productId);
+            if (product == null)
+            {
+                throw new KeyNotFoundException($"Product with ID {productId} not found.");
+            }
+
+            return product;
         }
     }
 }

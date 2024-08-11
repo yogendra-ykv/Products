@@ -14,7 +14,7 @@ namespace Api.Interfaces
         ProductModel GetProductById(int productId);
         void DeleteProductById(int productId);
         void UpdateProduct(ProductModel product);
-        void DecrementStock(int id, int quantity);
-        void AddToStock(int id, int quantity);
+        ProductModel DecrementStock(int id, int quantity);
+        ProductModel AddToStock(int id, int quantity);
     }
 }

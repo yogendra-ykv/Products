@@ -47,16 +47,18 @@ namespace Api.Implementation
             _uow.Commit();
         }
 
-        public void DecrementStock(int id, int quantity)
+        public ProductModel DecrementStock(int id, int quantity)
         {
-            _productBusiness.DecrementStock(id, quantity);
+            var productModel = _productBusiness.DecrementStock(id, quantity);
             _uow.Commit();
+            return _mapper.Map<ProductModel>(productModel);
         }
 
-        public void AddToStock(int id, int quantity)
+        public ProductModel AddToStock(int id, int quantity)
         {
-            _productBusiness.AddToStock(id, quantity);
+            var productModel = _productBusiness.AddToStock(id, quantity);
             _uow.Commit();
+            return _mapper.Map<ProductModel>(productModel);
         }
     }
 }

@@ -57,17 +57,17 @@ namespace Business.Tests
         }
 
         [TestMethod]
-        public void AddToStock_Called_BusinessCalled()
+        public void AddToStock_Called_VerifyRepoCalled()
         {
             _sut.AddToStock(100000, 12);
-            _mockProductRepository.Verify(m => m.AddToStock(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            _mockProductRepository.Verify(m => m.GetProductById(It.IsAny<int>()), Times.Once);
         }
 
         [TestMethod]
         public void DecrementStock_Called_VerifyRepoCalled()
         {
             _sut.DecrementStock(100000, 12);
-            _mockProductRepository.Verify(m => m.DecrementStock(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            _mockProductRepository.Verify(m => m.GetProductById(It.IsAny<int>()), Times.Once);
         }
     }
 }

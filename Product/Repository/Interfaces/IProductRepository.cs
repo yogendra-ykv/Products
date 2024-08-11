@@ -9,7 +9,5 @@ namespace Repository.Interfaces
         Product GetProductById(int productId);
         void DeleteProductById(Product product);
         void UpdateProduct(Product product);
-        void DecrementStock(int id, int quantity);
-        void AddToStock(int id, int quantity);
     }
 }

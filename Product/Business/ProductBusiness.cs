@@ -59,16 +59,37 @@ namespace Business
             _productRepository.UpdateProduct(MapDbProductModel(product));
         }
 
-        public void DecrementStock(int id, int quantity)
+        public ProductModel DecrementStock(int id, int quantity)
         {
+            if (quantity < 0)
+            {
+                throw new ArgumentException("Quantity to decrement must be a positive number.", nameof(quantity));
+            }
+
             IsValidProductId(id);
-            _productRepository.DecrementStock(id, quantity);
+            var product = _productRepository.GetProductById(id);
+
+            if (product.Quantity < quantity)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot decrement stock by {quantity} as it would result in negative stock.");
+            }
+
+            product.Quantity -= quantity;
+            return MapProductModel(product);
         }
 
-        public void AddToStock(int id, int quantity)
+        public ProductModel AddToStock(int id, int quantity)
         {
+            if (quantity <= 0)
+            {
+                throw new ArgumentException("Quantity to add must be a positive number.", nameof(quantity));
+            }
+
             IsValidProductId(id);
-            _productRepository.AddToStock(id, quantity);
+            var product = _productRepository.GetProductById(id);
+            product.Quantity += quantity;
+            return MapProductModel(product);
         }
 
         private void IsValidProductId(int id)

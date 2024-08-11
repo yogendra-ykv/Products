@@ -98,8 +98,8 @@ namespace WebApi.Controllers
         {
             try
             {
-                _productService.DecrementStock(id, quantity);
-                return NoContent();
+                var product = _productService.DecrementStock(id, quantity);
+                return Ok(product);
             }
             catch (Exception e)
             {
@@ -112,8 +112,8 @@ namespace WebApi.Controllers
         {
             try
             {
-                _productService.AddToStock(id, quantity);
-                return NoContent();
+                var product = _productService.AddToStock(id, quantity);
+                return Ok(product);
             }
             catch (Exception e)
             {

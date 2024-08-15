@@ -33,6 +33,17 @@ namespace Api.Implementation.Tests
         }
 
         [TestMethod]
+        public void GetAllProducts_Called_ExceptionThrown()
+        {
+            _mockProductBusiness.Setup(
+                x =>
+                    x.GetAllProducts()).Callback(() => { throw new Exception(); });
+            Assert.ThrowsException<Exception>(
+                () =>
+                    _sut.GetAllProducts());
+        }
+
+        [TestMethod]
         public void AddProduct_Called_BusinessCalled()
         {
             _sut.AddProduct(new ProductModel() { Id = 1000000, Name = "test", Quantity = 10 });
@@ -44,6 +55,17 @@ namespace Api.Implementation.Tests
         {
             _sut.GetProductById(1000000);
             _mockProductBusiness.Verify(m => m.GetProductById(It.IsAny<int>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetProductById_Called_ExceptionThrown()
+        {
+            _mockProductBusiness.Setup(
+                x =>
+                    x.GetProductById(It.IsAny<int>())).Callback(() => { throw new Exception(); });
+            Assert.ThrowsException<Exception>(
+                () =>
+                    _sut.GetProductById(100000));
         }
 
         [TestMethod]

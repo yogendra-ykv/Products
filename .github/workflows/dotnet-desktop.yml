@@ -21,15 +21,15 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.x'
+        dotnet-version: '8.0.x'
 
     - name: Install dependencies
-      run: dotnet restore Product.sln
+      run: dotnet restore ./Product.sln
 
     - name: Build the solution
       id: build
       run: |
-        dotnet build Product.sln --no-restore --configuration Release
+        dotnet build ./Product.sln --no-restore --configuration Release
 
   test:
     runs-on: ubuntu-latest
@@ -45,10 +45,10 @@ jobs:
         dotnet-version: '8.x'
 
     - name: Install dependencies
-      run: dotnet restore Product.sln
+      run: dotnet restore ./Product.sln
 
     - name: Run tests for Api.Implementation
-      run: dotnet test Api.Implementation.Tests/Api.Implementation.Tests.csproj --no-build --configuration Release
+      run: dotnet test ./Api.Implementation.Tests/Api.Implementation.Tests.csproj --no-build --configuration Release
 
     - name: Run tests for Business
-      run: dotnet test Business.Tests/Business.Tests.csproj --no-build --configuration Release
+      run: dotnet test ./Business.Tests/Business.Tests.csproj --no-build --configuration Release
